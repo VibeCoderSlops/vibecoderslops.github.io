@@ -1,0 +1,252 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    background: #111;
+    color: white;
+
+    font-family: Arial, sans-serif;
+}
+
+#app {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/* =========================
+    Preview
+========================= */
+
+#preview {
+    width: 70%;
+    height: 100%;
+    background: black;
+    position: relative;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* =========================
+    Divider
+========================= */
+
+#divider {
+    width: 6px;
+    cursor: col-resize;
+    background: #333;
+    transition: background 0.2s;
+}
+
+#divider:hover {
+    background: #666;
+}
+
+/* =========================
+    Editor Panel
+========================= */
+
+#editor-panel {
+    width: 30%;
+    height: 100%;
+
+    background: #1e1e1e;
+    border-left: 2px solid #333;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Toolbar */
+
+#toolbar {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    background: #222;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+
+    border: none;
+    border-radius: 4px;
+
+    background: #4caf50;
+    color: white;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+/* =========================
+    Editor Layout
+========================= */
+
+#editor-container {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+#code-area {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+
+    background: #1e1e1e;
+}
+
+/* =========================
+    Overlay Editor
+========================= */
+
+#highlighting,
+#shaderCode {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50px;
+
+    margin: 0;
+    padding: 12px;
+
+    overflow: auto;
+
+    white-space: pre-wrap;
+    word-wrap: break-word;
+
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Syntax layer */
+
+#highlighting {
+    pointer-events: none;
+
+    color: white;
+
+    z-index: 1;
+}
+
+/* Real textarea */
+
+#shaderCode {
+    z-index: 2;
+
+    background: transparent;
+
+    color: transparent;
+    caret-color: white;
+
+    -webkit-text-fill-color: transparent;
+
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+/* =========================
+    Error Box
+========================= */
+
+#error {
+    min-height: 60px;
+    max-height: 120px;
+
+    overflow-y: auto;
+
+    padding: 10px;
+
+    background: #181818;
+    border-top: 1px solid #333;
+
+    color: #ff5555;
+    font-size: 12px;
+
+    white-space: pre-wrap;
+}
+
+/* =========================
+    Syntax Colors
+========================= */
+
+.type {
+    color: #ff5f5f;
+}
+
+.number {
+    color: #9cff57;
+}
+
+.function {
+    color: #4da6ff;
+}
+
+.builtin {
+    color: #ffd54f;
+}
+
+.keyword {
+    color: #ff79c6;
+}
+
+.comment {
+    color: #777;
+    font-style: italic;
+}
+
+#line-numbers {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 30px;
+
+    padding: 12px 8px;
+
+    overflow: hidden;
+
+    background: #181818;
+    border-right: 1px solid #333;
+
+    color: #666;
+
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.4;
+
+    text-align: right;
+
+    user-select: none;
+
+    z-index: 3;
+
+    white-space: pre;
+}

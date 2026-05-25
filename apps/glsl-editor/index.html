@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GLSL Shader Editor</title>
+
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+
+<div id="app">
+
+  <!-- Preview -->
+  <div id="preview">
+    <canvas id="glcanvas"></canvas>
+  </div>
+
+  <!-- Resize Divider -->
+  <div id="divider"></div>
+
+  <!-- Editor -->
+  <div id="editor-panel">
+
+    <div id="toolbar">
+      <button id="runBtn">Compile Shader</button>
+    </div>
+
+    <div id="editor-container">
+
+      <div id="code-area">
+
+        <div id="line-numbers"></div>
+
+        <pre id="highlighting"></pre>
+
+        <textarea
+          id="shaderCode"
+          spellcheck="false"
+        >
+precision mediump float;
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+void main() {
+
+    vec2 uv = gl_FragCoord.xy / u_resolution;
+
+    vec3 color = 0.5 + 0.5 * cos(
+        u_time +
+        uv.xyx +
+        vec3(0.0, 2.0, 4.0)
+    );
+
+    gl_FragColor = vec4(color, 1.0);
+}
+        </textarea>
+
+      </div>
+
+      <div id="error"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script type="module" src="./main.js"></script>
+
+</body>
+</html>
