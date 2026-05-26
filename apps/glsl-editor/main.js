@@ -489,24 +489,41 @@ compileCurrentShader();
    Render Loop
 ========================= */
 
+const fpsBox = document.getElementById("fps");
+
+let lastTime = performance.now();
+let frames = 0;
+let fps = 0;
+
 function render(time) {
 
   time *= 0.001;
 
+  frames++;
+
+  const now = performance.now();
+  const delta = now - lastTime;
+
+  if (delta >= 1000) {
+    fps = Math.round((frames * 1000) / delta);
+
+    fpsBox.textContent = `FPS: ${fps}`;
+
+    frames = 0;
+    lastTime = now;
+  }
+
+
   resizeCanvas();
 
   gl.clearColor(0, 0, 0, 1);
-
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   if (program) {
 
     gl.useProgram(program);
 
-    gl.uniform1f(
-      timeLocation,
-      time
-    );
+    gl.uniform1f(timeLocation, time);
 
     gl.uniform2f(
       resolutionLocation,
@@ -514,11 +531,7 @@ function render(time) {
       canvas.height
     );
 
-    gl.drawArrays(
-      gl.TRIANGLES,
-      0,
-      6
-    );
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 
   requestAnimationFrame(render);
