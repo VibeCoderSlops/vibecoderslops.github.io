@@ -70,6 +70,50 @@ function updateLineNumbers() {
 }
 
 /* =========================
+   Slots
+========================= */
+
+const fileInputs = {};
+
+function openFilePicker(unit) {
+  if (!fileInputs[unit]) {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+
+    input.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const img = new Image();
+
+      img.onload = () => {
+        createTexture(img, unit);
+
+        document.getElementById(`preview${unit}`).src = img.src;
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
+
+    fileInputs[unit] = input;
+  }
+
+  fileInputs[unit].click();
+}
+
+document.querySelectorAll(".texture-preview").forEach((el) => {
+  const unit = parseInt(el.dataset.texture);
+
+  el.addEventListener("click", () => {
+    openFilePicker(unit);
+  });
+
+  // стартовое состояние = чёрный
+  el.style.background = "black";
+});
+
+/* =========================
    Syntax Highlighting
 ========================= */
 
@@ -283,6 +327,77 @@ void main() {
 let program;
 let timeLocation;
 let resolutionLocation;
+const textures = [];
+const textureUniforms = [];
+
+function createTexture(image, unit) {
+  const texture = gl.createTexture();
+
+  gl.activeTexture(gl.TEXTURE0 + unit);
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_WRAP_T,
+    gl.REPEAT
+  );
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_MIN_FILTER,
+    gl.LINEAR
+  );
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_MAG_FILTER,
+    gl.LINEAR
+  );
+
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    0,
+    gl.RGBA,
+    gl.RGBA,
+    gl.UNSIGNED_BYTE,
+    image
+  );
+
+  textures[unit] = texture;
+}
+
+document
+  .querySelectorAll('input[type="file"]')
+  .forEach(input => {
+
+    input.addEventListener("change", e => {
+
+      const file = e.target.files[0];
+
+      if (!file) return;
+
+      const unit =
+        parseInt(
+          input.dataset.texture
+        );
+
+      const img = new Image();
+
+      img.onload = () => {
+
+        createTexture(img, unit);
+
+        document.getElementById(
+          `preview${unit}`
+        ).src = img.src;
+      };
+
+      img.src =
+        URL.createObjectURL(file);
+    });
+  });
 
 /* =========================
    Resize Canvas
@@ -465,6 +580,15 @@ function compileCurrentShader() {
         "u_resolution"
       );
 
+      for (let i = 0; i < 4; i++) {
+
+        textureUniforms[i] =
+          gl.getUniformLocation(
+            program,
+            `u_texture${i}`
+          );
+      }
+
   } catch (err) {
 
     errorBox.textContent =
@@ -526,6 +650,23 @@ function render(time) {
       canvas.width,
       canvas.height
     );
+
+    for (let i = 0; i < 4; i++) {
+
+      if (!textures[i]) continue;
+
+      gl.activeTexture(gl.TEXTURE0 + i);
+
+      gl.bindTexture(
+        gl.TEXTURE_2D,
+        textures[i]
+      );
+
+      gl.uniform1i(
+        textureUniforms[i],
+        i
+      );
+    }
 
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }

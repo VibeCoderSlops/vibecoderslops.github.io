@@ -60,6 +60,11 @@ precision highp float;
 uniform float u_time;
 uniform vec2 u_resolution;
 
+uniform sampler2D u_texture0;
+uniform sampler2D u_texture1;
+uniform sampler2D u_texture2;
+uniform sampler2D u_texture3;
+
 out vec4 outColor;
 
 void main() {
@@ -73,6 +78,32 @@ void main() {
       </div>
 
       <div id="error"></div>
+
+      <!-- Textures slots -->
+      <details id="textures-panel">
+        <summary>
+          <span class="arrow">▶</span>
+          Textures
+        </summary>
+        
+        <div class="textures-row">
+          <div class="texture-slot">
+            <img class="texture-preview" data-texture="0" id="preview0">
+          </div>
+
+          <div class="texture-slot">
+            <img class="texture-preview" data-texture="1" id="preview1">
+          </div>
+
+          <div class="texture-slot">
+            <img class="texture-preview" data-texture="2" id="preview2">
+          </div>
+
+          <div class="texture-slot">
+            <img class="texture-preview" data-texture="3" id="preview3">
+          </div>
+        </div>
+      </details> 
 
     </div>
 

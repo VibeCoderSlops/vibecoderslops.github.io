@@ -96,6 +96,70 @@ button:hover {
     background: #45a049;
 }
 
+/* Texture slots */
+
+#textures-panel summary {
+  display: block;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+
+#textures-panel summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-size: 12px;
+}
+
+#textures-panel[open] .arrow {
+  transform: rotate(90deg);
+}
+
+.textures-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.texture-slot label {
+  display: none;
+}
+
+.texture-slot {
+  align-items: center;
+}
+
+.texture-input {
+  display: none;
+}
+
+.texture-preview {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+
+  border: 1px solid #444;
+  border-radius: 6px;
+
+  background: black;
+  cursor: pointer;
+
+  transition: transform 0.1s ease;
+}
+
+.texture-preview:hover {
+  transform: scale(1.05);
+}
+
 /* =========================
     Editor Layout
 ========================= */
