@@ -3,7 +3,7 @@
 ========================= */
 
 const canvas = document.getElementById("glcanvas");
-const gl = canvas.getContext("webgl");
+const gl = canvas.getContext("webgl2");
 
 if (!gl) {
   alert("WebGL not supported");
@@ -271,16 +271,12 @@ updateHighlighting();
    Vertex Shader
 ========================= */
 
-const vertexShaderSource = `
-attribute vec2 a_position;
+const vertexShaderSource = `#version 300 es
+
+in vec2 a_position;
 
 void main() {
-
-    gl_Position = vec4(
-        a_position,
-        0.0,
-        1.0
-    );
+    gl_Position = vec4(a_position, 0.0, 1.0);
 }
 `;
 
